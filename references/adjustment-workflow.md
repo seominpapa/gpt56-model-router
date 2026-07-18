@@ -9,7 +9,7 @@ Evaluate only when the user asks or one of these signals occurs:
 - the same acceptance test fails twice;
 - the same error returns after an attempted fix;
 - the same acceptance criterion needs two rework cycles; or
-- a subagent result fails its acceptance criteria.
+- a project-orchestrator worker result fails its acceptance criteria.
 
 Ignore a one-off failure and an external-service, network, permission, or rate-limit outage unless it repeats after recovery.
 
@@ -17,7 +17,7 @@ Ignore a one-off failure and an external-service, network, permission, or rate-l
 
 - Quality, correctness, or rework issue: raise effort first; then move Luna to Terra or Terra to Sol only when capability is the likely constraint.
 - Time or token issue with acceptable quality: lower effort first; then consider Sol to Terra or Terra to Luna.
-- Independent schedule bottleneck: propose parallel workers, while stating that aggregate tokens and cost can rise.
+- Independent schedule bottleneck: let the project orchestrator propose parallel workers, while stating that aggregate tokens and cost can rise.
 
 After one adjustment, wait for the next validation result before adjusting again.
 
@@ -25,4 +25,4 @@ After one adjustment, wait for the next validation result before adjusting again
 
 Report the old and proposed model/effort, evidence, reason, predicted quality/time/token/cost effect, uncertainty, and application boundary. `fixed` reports only. `confirm once` asks for approval on the first qualified signal only, then preserves approval or rejection for the project. `automatic` applies a justified setting without another question.
 
-Apply only to the next work unit or a new pinned subagent supported by the current surface. Do not switch a running root agent.
+Apply only to the next work unit, a replacement pinned project orchestrator, or a new pinned worker supported by the current surface. Do not switch a running root agent; it remains the routing and approval layer.

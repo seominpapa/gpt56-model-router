@@ -36,6 +36,17 @@ Use this reference only for nuanced routing. It distills the supplied “GPT-5.6
 
 Start with the least expensive configuration likely to meet the quality bar. Compare 5–20 representative tasks; record correctness, rework, hallucinations, latency, token cost, and user satisfaction. Escalate for a demonstrated quality miss; downshift when quality is stable and cost or speed matters.
 
+## Project orchestration pattern
+
+Once the user approves execution, the outer root conversation always creates one pinned **project orchestrator** with the recommended tier and effort. The root routes the task and handles user decisions; it does not execute the project payload.
+
+The orchestrator has two valid paths:
+
+- **Direct:** execute a tightly coupled project itself, then validate and report it.
+- **Delegated:** create workers only for genuinely independent workstreams, then integrate, validate, and report their outputs.
+
+Estimate the orchestrator in every project plan. Add worker, retry, and synthesis overhead only when delegation is used. Parallel workers can shorten wall-clock time, but normally increase aggregate tokens and cost.
+
 ## Application boundaries
 
-A skill is an instruction workflow, not an unconditional control plane. It can tell an available Codex agent-spawn mechanism to run a worker with a pinned model and effort, but it must check that those controls exist. It must never claim a model switch that the current product surface did not confirm.
+A skill is an instruction workflow, not an unconditional control plane. It can tell an available Codex agent-spawn mechanism to run a project orchestrator or worker with a pinned model and effort, but it must check that those controls exist. It must never claim a model switch that the current product surface did not confirm.

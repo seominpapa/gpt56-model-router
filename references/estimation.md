@@ -8,12 +8,14 @@ Define the result being estimated: a first draft, reviewable implementation, tes
 
 ## Produce ranges
 
-Use low–likely–high reasoning internally, then report a practical range. Include aggregate input and output tokens for every agent, retries, verification, and synthesis. Do not imply that model output, external-tool latency, or human review time is guaranteed.
+Use low–likely–high reasoning internally, then report a practical range. Include aggregate input and output tokens for the project orchestrator, retries, verification, and synthesis; add every worker only when the orchestrator delegates. If outer root-conversation overhead is material, label it separately. Do not imply that model output, external-tool latency, or human review time is guaranteed.
 
 For a parallel plan, report both:
 
 - **Elapsed time**: the critical path, including coordination and final synthesis.
-- **Total tokens/cost**: the sum of all workers plus coordination; this can exceed a single-agent plan.
+- **Total tokens/cost**: the orchestrator-only total for a direct plan, or the orchestrator, workers, and coordination for a delegated plan; the latter can exceed the direct plan.
+
+Always compare a delegated plan with the orchestrator-only baseline. The root conversation is a routing and approval layer, not a substitute for the project orchestrator.
 
 ## Calculate cost safely
 

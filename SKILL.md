@@ -1,6 +1,6 @@
 ---
 name: gpt56-model-router
-description: Recommend and apply an appropriate GPT-5.6 Sol, Terra, or Luna model and reasoning effort for a new project or task. Use when a user starts work and needs an easy explanation of the best model, reasoning level, rationale, project time/token/cost estimate, quality-first alternative, adaptive error-driven adjustment policy, or a Codex subagent handoff with a generated pinned agent configuration.
+description: Recommend and apply an appropriate GPT-5.6 Sol, Terra, or Luna model and reasoning effort for a new project or task. Use when a user starts work and needs an easy explanation of the best model, reasoning level, rationale, project time/token/cost estimate, quality-first alternative, adaptive error-driven adjustment policy, or a Codex project-orchestrator handoff with a generated pinned agent configuration.
 ---
 
 # GPT-5.6 Model Router
@@ -50,10 +50,10 @@ Read [estimation.md](references/estimation.md) before presenting project estimat
 State the assumptions that materially affect the estimate: deliverables, amount/quality of input context, tool or test time, review cycles, and whether workstreams are independent. Estimate all of the following:
 
 - **Elapsed time**: likely wall-clock range from start to a reviewable result.
-- **Total tokens**: aggregate input and output token range across the root and every worker.
+- **Total tokens**: aggregate input and output token range for the project orchestrator, its workers, retries, verification, and synthesis. If outer root-conversation overhead is material, label it separately rather than hiding it in the project estimate.
 - **Cost**: a range only when the user gives a rate or a current official rate can be verified. Otherwise show the token estimate and the pricing formula; never invent a price.
 
-For a subagent plan, show the single-agent baseline and the proposed worker roles. Explain that parallelism can reduce elapsed time while increasing aggregate tokens and cost. Include each role's model and effort, its reason, and the plan-level elapsed-time, total-token, and cost range.
+Every accepted project starts with one pinned **project orchestrator** using the recommended model and effort. The orchestrator works directly when no independent workstream exists; otherwise it delegates only independent parts, then integrates and validates their results. For a worker plan, show the direct-orchestrator baseline and the proposed worker roles. Explain that parallelism can reduce elapsed time while increasing aggregate tokens and cost. Include each role's model and effort, its reason, and the plan-level elapsed-time, total-token, and cost range.
 
 Retain the recommended setting and estimate as the comparison baseline.
 
@@ -65,6 +65,7 @@ Return this short, user-friendly structure:
 추천: [모델] + [추론강도]
 한 줄 이유: [난이도·실패 비용·속도·반복량을 연결한 설명]
 예상: [가정] · 완료 시간 [범위] · 총 토큰 [범위] · 비용 [범위 또는 산식]
+프로젝트 총괄: [모델+추론강도] — [전체 작업·통합·검증 책임]
 하위 에이전트: [불필요 / 역할·각 모델+추론강도·추천 이유] · 시간·토큰·비용 영향
 품질 우선안: [더 높은 조합] — [언제 필요한지]
 적용: [자동 위임 가능 여부 또는 사용자가 선택할 위치]
@@ -82,7 +83,7 @@ After presenting the initial recommendation, ask the user to choose exactly one 
 
 - **Fixed**: retain the recommended model and effort for the project.
 - **Confirm once**: on the first qualified adjustment signal, show one adjustment proposal and ask for approval. If approved, apply comparable later adjustments automatically; if declined, lock the original setting for the project.
-- **Automatic**: evaluate qualified signals and apply justified changes automatically to the next work unit or a new pinned subagent.
+- **Automatic**: evaluate qualified signals and apply justified changes automatically to the next work unit, a replacement project orchestrator, or a new pinned worker.
 
 Record the choice in the project adjustment state when the current surface supports it. Do not create recurring time-based monitoring.
 
@@ -94,15 +95,15 @@ Compare observed evidence with the baseline: acceptance or test results, concret
 
 Change one dimension first: raise effort for quality/rework problems, lower effort for cost/latency with acceptable quality, then change the model tier only if evidence supports it. For independent bottlenecks, propose a parallel subagent plan instead. Report the previous and proposed model/effort, reason, evidence, expected quality/time/token/cost effect, and application boundary. After a change, wait for the next validation result before making another adjustment.
 
-Apply the policy: fixed means report only; confirm-once asks only at the first qualified signal; automatic applies the justified setting. Apply changes only to the next work unit or a new pinned subagent when the current Codex surface supports it. Do not switch the running root agent.
+Apply the policy: fixed means report only; confirm-once asks only at the first qualified signal; automatic applies the justified setting. Apply changes only to the next work unit, a replacement project orchestrator, or a new pinned worker when the current Codex surface supports it. Do not switch the running root agent.
 
-## Offer a pinned Codex subagent
+## Offer a pinned Codex project orchestrator
 
-After every non-provisional recommendation, offer this next step in plain language: **“권장 설정으로 하위 에이전트를 만들어 바로 시작할까요?”** If the user says start, proceed, apply, or gives equivalent approval, create the pinned project agent automatically.
+After every non-provisional recommendation, offer this next step in plain language: **“권장 설정의 프로젝트 총괄 에이전트에게 작업을 위임해 바로 시작할까요?”** If the user says start, proceed, apply, or gives equivalent approval, create the pinned project orchestrator automatically.
 
-Do not change the current root conversation's model. Create a new subagent so its model and reasoning settings are explicit and reproducible.
+Do not change the current root conversation's model. The root routes the task, receives status, and handles user decisions; it does not perform the project payload. Always create the project orchestrator first so its model and reasoning settings are explicit and reproducible. This applies whether the orchestrator later works alone or creates workers.
 
-## Create and run the pinned agent
+## Create and run the pinned project orchestrator
 
 1. Check that the current Codex surface supports the recommended model and effort. Do not substitute another model silently.
 2. Create `.codex/agents/` in the current project if needed. Use the personal directory `~/.codex/agents/` only when the user explicitly asks for a cross-project default.
@@ -111,16 +112,16 @@ Do not change the current root conversation's model. Create a new subagent so it
 ```toml
 # Generated by gpt56-model-router for this project.
 name = "gpt56-router-<tier>-<effort>"
-description = "Pinned <tier> / <effort> worker generated for this project."
-developer_instructions = "Execute only the delegated project task. Follow its acceptance criteria. Report completed work, validation, and unresolved risks."
+description = "Pinned <tier> / <effort> project orchestrator generated for this project."
+developer_instructions = "Own the delegated project end to end. Work directly when it is tightly coupled. Delegate only independent workstreams when useful, then integrate and validate every result. Follow the acceptance criteria. Report completed work, validation, and unresolved risks to the root agent."
 model = "gpt-5.6-<tier>"
 model_reasoning_effort = "<effort>"
 ```
 
 4. If that file already exists and carries the generated comment, update it to the new recommendation. Never overwrite a non-generated agent file; create a distinct router filename instead and explain why.
-5. Spawn the agent by its custom-agent name when the current agent-creation surface supports named custom agents. Otherwise spawn with the same `model` and `model_reasoning_effort` passed directly to the available spawn control.
-6. Give the worker the user task, acceptance criteria, relevant project context, and the routing rationale. Report the config path and the exact pinned settings before work begins.
-7. For **ultra / multi-agent**, first identify independent workstreams. Create one pinned agent file per role only when the available surface supports the required effort; otherwise state that the setting cannot be applied automatically and offer the closest supported single-agent plan.
+5. Spawn the project orchestrator by its custom-agent name when the current agent-creation surface supports named custom agents. Otherwise spawn with the same `model` and `model_reasoning_effort` passed directly to the available spawn control.
+6. Give the orchestrator the user task, acceptance criteria, relevant project context, routing rationale, and chosen adjustment policy. Report the config path and exact pinned settings before work begins.
+7. The orchestrator must choose one of two paths: execute the tightly coupled project directly, or identify independent workstreams and create workers only for those roles. It remains responsible for integration, validation, and the final project report in both paths. For **ultra / multi-agent**, create one pinned worker setting per role only when the available surface supports the required effort; otherwise state that the setting cannot be applied automatically and use the closest supported orchestrator-led plan.
 
 Create or modify these configuration files only after the user asks to start, proceed, apply, or explicitly requests configuration changes. Do not change global defaults, billing, API keys, or account settings.
 
