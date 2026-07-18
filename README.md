@@ -35,6 +35,33 @@
 
 `예상 비용 = 입력 토큰 × 입력 단가 + 출력 토큰 × 출력 단가 + 도구/제공자 부과금`
 
+## API 토큰 과금 기준
+
+아래는 **OpenAI API의 표준 텍스트 토큰 단가**이며, 2026-07-18에 OpenAI 공식 모델 문서를 기준으로 확인했습니다. 금액은 USD, 100만 토큰(MTok)당 기준입니다. 추론강도별로 별도 단가를 매기지는 않으며, 선택한 모델의 단가가 적용됩니다. [공식 모델 카탈로그](https://developers.openai.com/api/docs/models)
+
+| 모델 | API 모델 ID | 지원 추론강도 | 입력 / 1M 토큰 | 캐시된 입력 / 1M 토큰 | 출력 / 1M 토큰* |
+|---|---|---|---:|---:|---:|
+| GPT-5.6 Sol | `gpt-5.6-sol` | `none`, `low`, `medium`, `high`, `xhigh`, `max` | $5.00 | $0.50 | $30.00 |
+| GPT-5.6 Terra | `gpt-5.6-terra` | `none`, `low`, `medium`, `high`, `xhigh`, `max` | $2.50 | $0.25 | $15.00 |
+| GPT-5.6 Luna | `gpt-5.6-luna` | `none`, `low`, `medium`, `high`, `xhigh`, `max` | $1.00 | $0.10 | $6.00 |
+
+추론강도에 따른 과금 해석은 다음과 같습니다.
+
+| 추론강도 | 별도 입·출력 단가 | 비용에 미치는 영향 |
+|---|---|---|
+| `none` | 없음 — 선택한 모델의 표준 단가 적용 | 추론 토큰을 사용하지 않는 지연시간 민감 작업에 적합 |
+| `low` | 없음 — 선택한 모델의 표준 단가 적용 | 일반적으로 토큰·지연시간을 낮추는 방향 |
+| `medium` | 없음 — 선택한 모델의 표준 단가 적용 | 품질·비용·속도의 균형점 |
+| `high` | 없음 — 선택한 모델의 표준 단가 적용 | 더 많은 추론 토큰이 발생할 수 있어 출력 과금이 증가할 수 있음 |
+| `xhigh` | 없음 — 선택한 모델의 표준 단가 적용 | 복잡도에 따라 출력 과금이 더 증가할 수 있음 |
+| `max` | 없음 — 선택한 모델의 표준 단가 적용 | 어려운 문제에만 사용; 실제 출력·추론 토큰 사용량을 확인 |
+
+\* 추론 토큰은 API에 보이지 않더라도 **출력 토큰으로 과금**됩니다. 따라서 높은 추론강도는 단가 자체를 바꾸지는 않지만 출력 토큰 수와 총비용을 높일 수 있습니다. 실제 사용량은 응답의 `usage.output_tokens_details.reasoning_tokens`에서 확인하세요. [공식 추론 가이드](https://developers.openai.com/api/docs/guides/reasoning)
+
+`ultra`는 이 API 토큰 단가표의 추론강도가 아닙니다. OpenAI 안내상 Codex/ChatGPT Work의 제품 설정으로 제공될 수 있으므로, API 비용 산정에는 위 모델별 토큰 단가를 사용하고 실제 Codex 구독·사용 한도는 해당 플랜을 확인해야 합니다. [GPT-5.6 출시 안내](https://openai.com/index/gpt-5-6/)
+
+참고: 입력이 272K 토큰을 초과하면 전체 요청에 입력 2배·출력 1.5배 단가가 적용됩니다. 캐시 쓰기는 일반 입력 단가의 1.25배이며, 웹 검색·컴퓨터 사용 등 도구 호출, 이미지 입력, 우선 처리 등은 별도 과금될 수 있습니다. 최신 조건은 각 공식 모델 페이지에서 다시 확인하세요: [Sol](https://developers.openai.com/api/docs/models/gpt-5.6-sol), [Terra](https://developers.openai.com/api/docs/models/gpt-5.6-terra), [Luna](https://developers.openai.com/api/docs/models/gpt-5.6-luna).
+
 ## 빠른 사용
 
 설치한 뒤 새 대화에서 다음처럼 요청하세요.
