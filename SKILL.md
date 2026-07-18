@@ -97,8 +97,8 @@ Do not expose an internal scoring formula unless the user asks. Never present a 
 After presenting the initial recommendation, ask the user to choose exactly one policy. Do not ask follow-up policy questions later.
 
 - **Fixed**: retain the recommended model and effort for the project.
-- **Confirm once**: on the first qualified adjustment signal, show one adjustment proposal and ask for approval. If approved, apply comparable later adjustments automatically; if declined, lock the original setting for the project.
-- **Automatic**: evaluate qualified signals and apply justified changes automatically to the next work unit, a replacement project orchestrator, or a new pinned worker.
+- **Confirm once**: on the first qualified adjustment signal, show one adjustment proposal and ask for approval. If approved, apply comparable later adjustments automatically within that role's approved scope; if declined, lock the original setting for the project.
+- **Automatic**: evaluate qualified signals and apply justified changes automatically to the next work unit, a replacement project orchestrator, or a new pinned worker. For existing role configurations, this applies only to roles the user previously approved for routing changes.
 
 Record the choice in the project adjustment state when the current surface supports it. Do not create recurring time-based monitoring.
 
@@ -110,11 +110,11 @@ Compare observed evidence with the baseline: acceptance or test results, concret
 
 Change one dimension first: raise effort for quality/rework problems, lower effort for cost/latency with acceptable quality, then change the model tier only if evidence supports it. For independent bottlenecks, propose a parallel subagent plan instead. Report the previous and proposed model/effort, reason, evidence, expected quality/time/token/cost effect, and application boundary. After a change, wait for the next validation result before making another adjustment.
 
-Apply the policy: fixed means report only; confirm-once asks only at the first qualified signal; automatic applies the justified setting. Apply changes only to the next work unit, a replacement project orchestrator, or a new pinned worker when the current Codex surface supports it. Do not switch the running root agent.
+Apply the policy: fixed means report only; confirm-once asks only at the first qualified signal; automatic applies the justified setting within the user's approved role scope. Apply changes only to the next work unit, a replacement project orchestrator, or a new pinned worker when the current Codex surface supports it. Do not switch the running root agent.
 
 ## Offer a pinned Codex project orchestrator
 
-After every non-provisional recommendation, offer this next step in plain language: **“권장 설정의 프로젝트 총괄 에이전트에게 작업을 위임해 바로 시작할까요?”** If the user says start, proceed, apply, or gives equivalent approval, create the pinned project orchestrator automatically.
+After every non-provisional recommendation, offer this next step in plain language: **“권장 설정의 프로젝트 총괄 에이전트에게 작업을 위임해 바로 시작할까요?”** If the project has no existing role configuration, a start/proceed/apply approval creates the generated pinned orchestrator. If existing role configurations are present, ask the user to approve the named roles or say **“모든 권장 역할 적용”** before changing them; a bare start/proceed approval does not overwrite those files.
 
 Do not change the current root conversation's model. The root routes the task, receives status, and handles user decisions; it does not perform the project payload. Always create the project orchestrator first so its model and reasoning settings are explicit and reproducible. This applies whether the orchestrator later works alone or creates workers.
 
@@ -138,7 +138,7 @@ model_reasoning_effort = "<effort>"
 6. Give the orchestrator the user task, acceptance criteria, relevant project context, routing rationale, and chosen adjustment policy. Report the config path and exact pinned settings before work begins.
 7. The orchestrator must choose one of two paths: execute the tightly coupled project directly, or identify independent workstreams and create workers only for those roles. It remains responsible for integration, validation, and the final project report in both paths. For **ultra / multi-agent**, create one pinned worker setting per role only when the available surface supports the required effort; otherwise state that the setting cannot be applied automatically and use the closest supported orchestrator-led plan.
 
-Create or modify these configuration files only after the user asks to start, proceed, apply, or explicitly requests configuration changes. Do not change global defaults, billing, API keys, or account settings.
+Create a new generated configuration only after the user asks to start, proceed, apply, or explicitly requests configuration changes. Modify an existing role configuration only after the user approves that named role or all recommended roles. Do not change global defaults, billing, API keys, or account settings.
 
 If the recommended Luna, max, or ultra setting is unavailable in the current agent controls, preserve the recommendation and ask the user to select it manually. Do not claim that a configuration file or a worker changed the setting unless the creation surface confirms it.
 
