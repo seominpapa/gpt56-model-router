@@ -55,6 +55,8 @@ State the assumptions that materially affect the estimate: deliverables, amount/
 
 For a subagent plan, show the single-agent baseline and the proposed worker roles. Explain that parallelism can reduce elapsed time while increasing aggregate tokens and cost. Include each role's model and effort, its reason, and the plan-level elapsed-time, total-token, and cost range.
 
+For a project estimated at **30 minutes or longer**, retain the recommended setting and estimate as the comparison baseline. At the initial recommendation, present the recommendation and required alternatives only; do not ask whether to change settings and do not start monitoring by default.
+
 ## Explain the recommendation
 
 Return this short, user-friendly structure:
@@ -74,6 +76,16 @@ Return this short, user-friendly structure:
 Always provide exactly two savings alternatives, in this order: (1) a **time-saving alternative** that lowers elapsed time, and (2) a **token-saving alternative** that lowers aggregate tokens. Name the model and reasoning effort for each; if it is unchanged from the primary recommendation, say so explicitly. Consider safely parallelizing independent work or narrowing the first milestone for time; consider a lower effort/tier, a sequential plan for tightly coupled work, sampling, batching, caching/reusing verified context, or staged escalation for tokens. Give each alternative's reason and estimated time, tokens, and cost in the same form as the primary recommendation. Do not recommend an alternative that breaks the stated quality, risk, privacy, or deadline constraint.
 
 Do not expose an internal scoring formula unless the user asks. Never present a cost, token, time, or quality guarantee. State assumptions briefly when information is missing.
+
+## Evaluate an adjustment only on request
+
+Read [adjustment-workflow.md](references/adjustment-workflow.md) when a user of a 30-minute-or-longer project asks to change the model or reasoning effort, or asks to evaluate whether it should change.
+
+Compare observed evidence with the baseline: acceptance or test results, concrete errors, user-requested rework, elapsed time, available usage data, and the remaining work's complexity, failure cost, and independence. Treat unavailable token data as an estimate, not a measurement.
+
+Propose an adjustment before applying it. Change one dimension first: raise effort for quality/rework problems, lower effort for cost/latency with acceptable quality, then change the model tier only if evidence supports it. For independent bottlenecks, propose a parallel subagent plan instead. Report the previous and proposed model/effort, reason, evidence, expected quality/time/token/cost effect, and application boundary.
+
+After the user explicitly requests an adjustment, apply the approved setting only to the next work unit or a new pinned subagent when the current Codex surface supports it. Do not switch the running root agent, silently change settings, or create a recurring monitor without separate user approval. For projects estimated below 30 minutes, give a fresh recommendation rather than initiating this adjustment workflow.
 
 ## Offer a pinned Codex subagent
 

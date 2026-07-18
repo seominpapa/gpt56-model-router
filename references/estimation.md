@@ -28,3 +28,9 @@ Keep currency and billing units explicit. If the user asks for a rough budget be
 Offer at least two feasible alternatives. For each, state the mechanism, why it is safe for the stated constraints, and its estimated elapsed time, total tokens, and cost. Good levers are reducing effort before tier, using one agent for tightly coupled work, splitting only independent work, narrowing the first milestone, sampling before full-scale processing, batching, caching verified context, and escalating after a quality gate.
 
 Do not hide tradeoffs: lower effort can increase rework; parallel agents can shorten elapsed time while raising aggregate tokens and cost.
+
+## Compare a requested adjustment
+
+For projects estimated at 30 minutes or longer, preserve the initial estimate as a baseline. When the user requests a settings adjustment, compare the observed elapsed time and available usage with that baseline. Separate measured data from estimates. Show the expected delta for quality, elapsed time, total tokens, and cost after the proposed change.
+
+Change effort before model tier unless observed evidence shows a capability mismatch. Evaluate parallel workers separately: they may reduce elapsed time but should not be presented as a token-saving change. Do not start monitoring or apply a new configuration without the user's explicit request.
