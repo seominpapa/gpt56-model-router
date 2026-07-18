@@ -1,6 +1,6 @@
 ---
 name: gpt56-model-router
-description: Recommend and apply an appropriate GPT-5.6 Sol, Terra, or Luna model and reasoning effort for a new project or task. Use when a user starts work and needs an easy explanation of the best model, reasoning level, rationale, project time/token/cost estimate, quality-first alternative, adaptive error-driven adjustment policy, or a Codex project-orchestrator handoff with a generated pinned agent configuration.
+description: Recommend and apply an appropriate GPT-5.6 Sol, Terra, or Luna model and reasoning effort for a new project or task. Use when a user starts work and needs an easy explanation of the best model, reasoning level, rationale, project time/input-output-token/API-cost estimate, quality-first alternative, adaptive error-driven adjustment policy, or a Codex project-orchestrator handoff with a generated pinned agent configuration.
 ---
 
 # GPT-5.6 Model Router
@@ -45,13 +45,13 @@ Avoid Luna at xhigh/max/ultra. Treat Terra at max or ultra as a signal to compar
 
 ## Estimate before explaining
 
-Read [estimation.md](references/estimation.md) before presenting project estimates or alternatives. Use ranges, not a single promised number.
+Read [estimation.md](references/estimation.md) and [pricing.md](references/pricing.md) before presenting project estimates or alternatives. Use ranges, not a single promised number.
 
 State the assumptions that materially affect the estimate: deliverables, amount/quality of input context, tool or test time, review cycles, and whether workstreams are independent. Estimate all of the following:
 
 - **Elapsed time**: likely wall-clock range from start to a reviewable result.
-- **Total tokens**: aggregate input and output token range for the project orchestrator, its workers, retries, verification, and synthesis. If outer root-conversation overhead is material, label it separately rather than hiding it in the project estimate.
-- **Cost**: a range only when the user gives a rate or a current official rate can be verified. Otherwise show the token estimate and the pricing formula; never invent a price.
+- **Tokens**: separate aggregate **input** and **output** token ranges for the project orchestrator, its workers, retries, verification, and synthesis. If outer root-conversation overhead is material, label it separately rather than hiding it in the project estimate.
+- **API production cost**: always calculate a USD range from the applicable Sol, Terra, or Luna input/output rates in `pricing.md`. Show the token assumptions and formula. Assume uncached input unless cached input is known. Keep external tool/provider charges separate and never invent them.
 
 Every accepted project starts with one pinned **project orchestrator** using the recommended model and effort. The orchestrator works directly when no independent workstream exists; otherwise it delegates only independent parts, then integrates and validates their results. For a worker plan, show the direct-orchestrator baseline and the proposed worker roles. Explain that parallelism can reduce elapsed time while increasing aggregate tokens and cost. Include each role's model and effort, its reason, and the plan-level elapsed-time, total-token, and cost range.
 
@@ -66,7 +66,8 @@ Return this short, user-friendly structure:
 ```text
 추천: [모델] + [추론강도]
 한 줄 이유: [난이도·실패 비용·속도·반복량을 연결한 설명]
-예상: [가정] · 완료 시간 [범위] · 총 토큰 [범위] · 비용 [범위 또는 산식]
+예상: [가정] · 완료 시간 [범위] · 입력 [범위] · 출력 [범위]
+API 제작비용: $[범위] — [모델별 입력·출력 단가와 계산식]
 프로젝트 총괄: [모델+추론강도] — [전체 작업·통합·검증 책임]
 하위 에이전트: [불필요 / 역할·각 모델+추론강도·추천 이유] · 시간·토큰·비용 영향
 품질 우선안: [더 높은 조합] — [언제 필요한지]
@@ -75,7 +76,7 @@ Return this short, user-friendly structure:
 조정 정책: [고정 / 첫 조정 시 확인 / 자동 조정] 중 하나를 선택해 주세요.
 ```
 
-The `프로젝트 총괄` and `하위 에이전트` lines are mandatory, not optional examples. Never replace either line with a question, “추가 정보 필요”, or a generic statement. If no worker is justified, write `하위 에이전트: 불필요 — [tightly coupled work reason]`.
+The `프로젝트 총괄`, `하위 에이전트`, and `API 제작비용` lines are mandatory, not optional examples. Never replace any of them with a question, “추가 정보 필요”, or a generic statement. If no worker is justified, write `하위 에이전트: 불필요 — [tightly coupled work reason]`. For these three GPT-5.6 tiers, never write `단가 필요`; use `pricing.md`.
 
 Do not include time-saving or token-saving alternatives in the initial recommendation. Present model/effort adjustment options only after a qualified repeated-error or rework signal, or when the user explicitly asks to change settings. For every adjustment, give the reason and expected quality, time, token, and cost impact.
 

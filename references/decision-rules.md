@@ -42,6 +42,8 @@ Once the user approves execution, the outer root conversation always creates one
 
 The initial routing result must always disclose the orchestrator model and effort plus a worker decision: `불필요` with a reason, or every proposed worker role with its model, effort, and reason. Missing task detail is not a reason to defer this output; make explicit minimal assumptions, label it provisional, then ask the follow-up question.
 
+The same initial result must include a USD API production-cost range. Use `pricing.md`, split input and output token estimates, calculate each recommended role at its own model rate, and state excluded non-token charges. Do not defer cost because no user-supplied rate is available.
+
 The orchestrator has two valid paths:
 
 - **Direct:** execute a tightly coupled project itself, then validate and report it.

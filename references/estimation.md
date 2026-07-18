@@ -1,6 +1,6 @@
 # Estimation Rules
 
-Use these rules whenever the routing response includes time, token, or cost expectations.
+Use these rules whenever the routing response includes time, token, or cost expectations. Read `pricing.md` with this file.
 
 ## Set the estimate boundary
 
@@ -10,7 +10,7 @@ Even when these details are incomplete, produce a provisional orchestrator and w
 
 ## Produce ranges
 
-Use low–likely–high reasoning internally, then report a practical range. Include aggregate input and output tokens for the project orchestrator, retries, verification, and synthesis; add every worker only when the orchestrator delegates. If outer root-conversation overhead is material, label it separately. Do not imply that model output, external-tool latency, or human review time is guaranteed.
+Use low–likely–high reasoning internally, then report a practical range. Report input and output tokens separately for the project orchestrator, retries, verification, and synthesis; add every worker only when the orchestrator delegates. If outer root-conversation overhead is material, label it separately. Do not imply that model output, external-tool latency, or human review time is guaranteed.
 
 For a parallel plan, report both:
 
@@ -19,13 +19,13 @@ For a parallel plan, report both:
 
 Always compare a delegated plan with the orchestrator-only baseline. The root conversation is a routing and approval layer, not a substitute for the project orchestrator.
 
-## Calculate cost safely
+## Calculate API production cost
 
-Use a current official model price only if it can be verified at the time of the answer. Otherwise ask for the team's input/output token rates or provide this formula without a numeric currency value:
+For Sol, Terra, and Luna recommendations, always use the verified USD rates in `pricing.md`. Calculate both low and high bounds from the matching model rate:
 
-`estimated cost = input tokens × input rate + output tokens × output rate + tool or provider charges`
+`API production cost = (uncached input tokens × input rate + cached input tokens × cached-input rate + output tokens × output rate) / 1,000,000`
 
-Keep currency and billing units explicit. If the user asks for a rough budget before rates are known, give token ranges and label cost as "단가 필요".
+Assume `cached input tokens = 0` unless caching is known. Include reasoning tokens in output tokens. If a plan uses multiple model tiers, calculate each role's cost with its own rate and sum the ranges. Always show the input/output ranges, the USD range, and the rate/formula used. Tool, image, search, priority, and provider charges are excluded unless they are known; name them as excluded rather than omitting the cost estimate. This is API-equivalent production cost, not a Codex subscription charge.
 
 ## Compare a requested adjustment
 

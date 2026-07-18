@@ -23,6 +23,6 @@ After one adjustment, wait for the next validation result before adjusting again
 
 ## Report and apply
 
-Report the old and proposed model/effort, evidence, reason, predicted quality/time/token/cost effect, uncertainty, and application boundary. `fixed` reports only. `confirm once` asks for approval on the first qualified signal only, then preserves approval or rejection for the project. `automatic` applies a justified setting without another question.
+Report the old and proposed model/effort, evidence, reason, predicted quality/time/token/cost effect, uncertainty, and application boundary. Split input and output token estimates and calculate the old/proposed USD API production-cost range with `pricing.md`; identify excluded non-token charges. `fixed` reports only. `confirm once` asks for approval on the first qualified signal only, then preserves approval or rejection for the project. `automatic` applies a justified setting without another question.
 
 Apply only to the next work unit, a replacement pinned project orchestrator, or a new pinned worker supported by the current surface. Do not switch a running root agent; it remains the routing and approval layer.

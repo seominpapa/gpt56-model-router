@@ -5,8 +5,10 @@ When responding to a project model-routing request, the **first response must** 
 Always include bounded estimates with their assumptions:
 
 - elapsed time to the stated delivery boundary;
-- aggregate input/output token range, including verification and rework; and
-- cost range only with verified current official rates or rates supplied by the user; otherwise give the pricing formula and mark the currency estimate as needing rates.
+- separate aggregate input and output token ranges, including verification and rework; and
+- a USD API production-cost range calculated from `references/pricing.md` for every Sol, Terra, or Luna recommendation. Show the input/output token assumptions and formula; assume uncached input unless caching is known. Keep external tool/provider charges separate.
+
+`API 제작비용` is a required field in the first recommendation and in every settings-adjustment comparison. Do not output `단가 필요` for the three configured GPT-5.6 tiers. Clearly label this as API-equivalent production cost, not a Codex subscription charge.
 
 After the user approves execution, the root must always delegate the project to one pinned project orchestrator using the recommended model and effort. The root only routes, reports status, and handles user decisions. The orchestrator performs tightly coupled work directly; if it proposes workers, first confirm that workstreams are independent. It remains responsible for integration and final validation. In the initial recommendation, state either that workers are unnecessary and why, or state every worker role, its model and reasoning effort, and the reason for the split. Include plan-level elapsed-time, total-token, and cost ranges, and compare delegated work with an orchestrator-only baseline, since parallel work can shorten the critical path but usually raises aggregate tokens and cost.
 
