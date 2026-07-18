@@ -31,6 +31,6 @@ Do not hide tradeoffs: lower effort can increase rework; parallel agents can sho
 
 ## Compare a requested adjustment
 
-For projects estimated at 30 minutes or longer, preserve the initial estimate as a baseline. When the user requests a settings adjustment, compare the observed elapsed time and available usage with that baseline. Separate measured data from estimates. Show the expected delta for quality, elapsed time, total tokens, and cost after the proposed change.
+Preserve the initial estimate as a baseline. When the user requests a settings adjustment or a qualified repeated-error/rework signal occurs, compare observed elapsed time and available usage with that baseline. Separate measured data from estimates. Show the expected delta for quality, elapsed time, total tokens, and cost after the proposed change.
 
-Change effort before model tier unless observed evidence shows a capability mismatch. Evaluate parallel workers separately: they may reduce elapsed time but should not be presented as a token-saving change. Do not start monitoring or apply a new configuration without the user's explicit request.
+Change effort before model tier unless observed evidence shows a capability mismatch. Evaluate parallel workers separately: they may reduce elapsed time but should not be presented as a token-saving change. Apply the selected policy: fixed, confirm-once, or automatic. Do not use elapsed time alone as a trigger.

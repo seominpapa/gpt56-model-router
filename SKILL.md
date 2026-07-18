@@ -55,7 +55,7 @@ State the assumptions that materially affect the estimate: deliverables, amount/
 
 For a subagent plan, show the single-agent baseline and the proposed worker roles. Explain that parallelism can reduce elapsed time while increasing aggregate tokens and cost. Include each role's model and effort, its reason, and the plan-level elapsed-time, total-token, and cost range.
 
-For a project estimated at **30 minutes or longer**, retain the recommended setting and estimate as the comparison baseline. At the initial recommendation, present the recommendation and required alternatives only; do not ask whether to change settings and do not start monitoring by default.
+Retain the recommended setting and estimate as the comparison baseline.
 
 ## Explain the recommendation
 
@@ -71,21 +71,32 @@ Return this short, user-friendly structure:
 품질 우선안: [더 높은 조합] — [언제 필요한지]
 적용: [자동 위임 가능 여부 또는 사용자가 선택할 위치]
 검증: 대표 작업 5~20개로 품질, 재작업률, 시간, 비용을 비교
+조정 정책: [고정 / 첫 조정 시 확인 / 자동 조정] 중 하나를 선택해 주세요.
 ```
 
 Always provide exactly two savings alternatives, in this order: (1) a **time-saving alternative** that lowers elapsed time, and (2) a **token-saving alternative** that lowers aggregate tokens. Name the model and reasoning effort for each; if it is unchanged from the primary recommendation, say so explicitly. Consider safely parallelizing independent work or narrowing the first milestone for time; consider a lower effort/tier, a sequential plan for tightly coupled work, sampling, batching, caching/reusing verified context, or staged escalation for tokens. Give each alternative's reason and estimated time, tokens, and cost in the same form as the primary recommendation. Do not recommend an alternative that breaks the stated quality, risk, privacy, or deadline constraint.
 
 Do not expose an internal scoring formula unless the user asks. Never present a cost, token, time, or quality guarantee. State assumptions briefly when information is missing.
 
-## Evaluate an adjustment only on request
+## Choose the adjustment policy once
 
-Read [adjustment-workflow.md](references/adjustment-workflow.md) when a user of a 30-minute-or-longer project asks to change the model or reasoning effort, or asks to evaluate whether it should change.
+After presenting the initial recommendation, ask the user to choose exactly one policy. Do not ask follow-up policy questions later.
+
+- **Fixed**: retain the recommended model and effort for the project.
+- **Confirm once**: on the first qualified adjustment signal, show one adjustment proposal and ask for approval. If approved, apply comparable later adjustments automatically; if declined, lock the original setting for the project.
+- **Automatic**: evaluate qualified signals and apply justified changes automatically to the next work unit or a new pinned subagent.
+
+Record the choice in the project adjustment state when the current surface supports it. Do not create recurring time-based monitoring.
+
+## Evaluate error and rework signals
+
+Read [adjustment-workflow.md](references/adjustment-workflow.md) when a user requests an adjustment or a qualified signal occurs: the same acceptance test fails twice, the same error recurs after a fix, the same acceptance criterion needs two rework cycles, or a subagent result fails acceptance. Do not treat a one-off failure or an external-tool outage as a qualified signal.
 
 Compare observed evidence with the baseline: acceptance or test results, concrete errors, user-requested rework, elapsed time, available usage data, and the remaining work's complexity, failure cost, and independence. Treat unavailable token data as an estimate, not a measurement.
 
-Propose an adjustment before applying it. Change one dimension first: raise effort for quality/rework problems, lower effort for cost/latency with acceptable quality, then change the model tier only if evidence supports it. For independent bottlenecks, propose a parallel subagent plan instead. Report the previous and proposed model/effort, reason, evidence, expected quality/time/token/cost effect, and application boundary.
+Change one dimension first: raise effort for quality/rework problems, lower effort for cost/latency with acceptable quality, then change the model tier only if evidence supports it. For independent bottlenecks, propose a parallel subagent plan instead. Report the previous and proposed model/effort, reason, evidence, expected quality/time/token/cost effect, and application boundary. After a change, wait for the next validation result before making another adjustment.
 
-After the user explicitly requests an adjustment, apply the approved setting only to the next work unit or a new pinned subagent when the current Codex surface supports it. Do not switch the running root agent, silently change settings, or create a recurring monitor without separate user approval. For projects estimated below 30 minutes, give a fresh recommendation rather than initiating this adjustment workflow.
+Apply the policy: fixed means report only; confirm-once asks only at the first qualified signal; automatic applies the justified setting. Apply changes only to the next work unit or a new pinned subagent when the current Codex surface supports it. Do not switch the running root agent.
 
 ## Offer a pinned Codex subagent
 

@@ -1,16 +1,17 @@
 # Adjustment Workflow
 
-Use this workflow only when a project was estimated at 30 minutes or longer and the user asks to adjust model or reasoning settings.
+Ask for the adjustment policy once after the initial recommendation: `fixed`, `confirm once`, or `automatic`. Keep the initial model, effort, and estimates as the baseline.
 
-## Evaluate the baseline
+## Qualified signals
 
-Compare the original recommendation with observed evidence:
+Evaluate only when the user asks or one of these signals occurs:
 
-- acceptance criteria, tests, review findings, and concrete errors;
-- rework count or repeated failure patterns;
-- elapsed time versus the original range;
-- API or surface usage data when available; otherwise a labeled estimate; and
-- remaining complexity, failure cost, and independent workstreams.
+- the same acceptance test fails twice;
+- the same error returns after an attempted fix;
+- the same acceptance criterion needs two rework cycles; or
+- a subagent result fails its acceptance criteria.
+
+Ignore a one-off failure and an external-service, network, permission, or rate-limit outage unless it repeats after recovery.
 
 ## Choose one adjustment
 
@@ -18,6 +19,10 @@ Compare the original recommendation with observed evidence:
 - Time or token issue with acceptable quality: lower effort first; then consider Sol to Terra or Terra to Luna.
 - Independent schedule bottleneck: propose parallel workers, while stating that aggregate tokens and cost can rise.
 
+After one adjustment, wait for the next validation result before adjusting again.
+
 ## Report and apply
 
-Report the old and proposed model/effort, evidence, reason, predicted quality/time/token/cost effect, uncertainty, and the boundary of application. Apply only after the user requests the adjustment, and only to the next work unit or a new pinned subagent supported by the current surface. Do not switch a running root agent. Do not create recurring monitoring without separate approval.
+Report the old and proposed model/effort, evidence, reason, predicted quality/time/token/cost effect, uncertainty, and application boundary. `fixed` reports only. `confirm once` asks for approval on the first qualified signal only, then preserves approval or rejection for the project. `automatic` applies a justified setting without another question.
+
+Apply only to the next work unit or a new pinned subagent supported by the current surface. Do not switch a running root agent.
