@@ -1,6 +1,6 @@
 ---
 name: gpt56-model-router
-description: Recommend and apply an appropriate GPT-5.6 Sol, Terra, or Luna model and reasoning effort for a new project or task. Use when a user starts work and needs an easy explanation of the best model, intelligence level, cost-saving alternative, quality-first alternative, or a Codex subagent handoff with a generated pinned agent configuration.
+description: Recommend and apply an appropriate GPT-5.6 Sol, Terra, or Luna model and reasoning effort for a new project or task. Use when a user starts work and needs an easy explanation of the best model, reasoning level, rationale, project time/token/cost estimate, cost-saving alternatives, quality-first alternative, or a Codex subagent handoff with a generated pinned agent configuration.
 ---
 
 # GPT-5.6 Model Router
@@ -43,6 +43,18 @@ Read [decision-rules.md](references/decision-rules.md) when a borderline case, s
 
 Avoid Luna at xhigh/max/ultra. Treat Terra at max or ultra as a signal to compare Sol instead. Prefer testing Terra high before Sol when the task is important but not clearly high-stakes.
 
+## Estimate before explaining
+
+Read [estimation.md](references/estimation.md) before presenting project estimates or alternatives. Use ranges, not a single promised number.
+
+State the assumptions that materially affect the estimate: deliverables, amount/quality of input context, tool or test time, review cycles, and whether workstreams are independent. Estimate all of the following:
+
+- **Elapsed time**: likely wall-clock range from start to a reviewable result.
+- **Total tokens**: aggregate input and output token range across the root and every worker.
+- **Cost**: a range only when the user gives a rate or a current official rate can be verified. Otherwise show the token estimate and the pricing formula; never invent a price.
+
+For a subagent plan, show the single-agent baseline and the proposed worker roles. Explain that parallelism can reduce elapsed time while increasing aggregate tokens and cost. Include each role's model and effort, its reason, and the plan-level elapsed-time, total-token, and cost range.
+
 ## Explain the recommendation
 
 Return this short, user-friendly structure:
@@ -50,13 +62,18 @@ Return this short, user-friendly structure:
 ```text
 추천: [모델] + [추론강도]
 한 줄 이유: [난이도·실패 비용·속도·반복량을 연결한 설명]
-절약안: [더 낮은 조합] — [언제 안전한지]
+예상: [가정] · 완료 시간 [범위] · 총 토큰 [범위] · 비용 [범위 또는 산식]
+하위 에이전트: [불필요 / 역할·각 모델+추론강도·추천 이유] · 시간·토큰·비용 영향
+절약안 1: [대안] — [추천 이유] · 시간 [범위] · 토큰 [범위] · 비용 [범위 또는 산식]
+절약안 2: [대안] — [추천 이유] · 시간 [범위] · 토큰 [범위] · 비용 [범위 또는 산식]
 품질 우선안: [더 높은 조합] — [언제 필요한지]
 적용: [자동 위임 가능 여부 또는 사용자가 선택할 위치]
 검증: 대표 작업 5~20개로 품질, 재작업률, 시간, 비용을 비교
 ```
 
-Do not expose an internal scoring formula unless the user asks. Never present a cost or quality guarantee. State assumptions briefly when information is missing.
+Recommend at least two viable time- or token-saving alternatives. Consider a lower effort/tier, a single-agent sequential plan instead of parallel workers, narrower first-deliverable scope, representative sampling, batching, caching/reusing verified context, or staged escalation. Do not recommend an alternative that breaks the stated quality, risk, privacy, or deadline constraint. Give each alternative's reason and estimated time, tokens, and cost in the same form as the primary recommendation.
+
+Do not expose an internal scoring formula unless the user asks. Never present a cost, token, time, or quality guarantee. State assumptions briefly when information is missing.
 
 ## Offer a pinned Codex subagent
 
