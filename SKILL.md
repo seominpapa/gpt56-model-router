@@ -55,6 +55,8 @@ State the assumptions that materially affect the estimate: deliverables, amount/
 
 Every accepted project starts with one pinned **project orchestrator** using the recommended model and effort. The orchestrator works directly when no independent workstream exists; otherwise it delegates only independent parts, then integrates and validates their results. For a worker plan, show the direct-orchestrator baseline and the proposed worker roles. Explain that parallelism can reduce elapsed time while increasing aggregate tokens and cost. Include each role's model and effort, its reason, and the plan-level elapsed-time, total-token, and cost range.
 
+**Mandatory first-response rule:** In the first routing response, always show a concrete `프로젝트 총괄` model+effort recommendation and a concrete `하위 에이전트` plan. The worker plan must say either `불필요` with the reason, or list every proposed role with its model+effort and reason. Do this before asking any follow-up question. When the project brief is incomplete, make minimal stated assumptions and label the recommendation `잠정안`; do not withhold the agent configuration while waiting for more detail. A follow-up question may refine the plan, but must never replace this initial output.
+
 Retain the recommended setting and estimate as the comparison baseline.
 
 ## Explain the recommendation
@@ -72,6 +74,8 @@ Return this short, user-friendly structure:
 검증: 대표 작업 5~20개로 품질, 재작업률, 시간, 비용을 비교
 조정 정책: [고정 / 첫 조정 시 확인 / 자동 조정] 중 하나를 선택해 주세요.
 ```
+
+The `프로젝트 총괄` and `하위 에이전트` lines are mandatory, not optional examples. Never replace either line with a question, “추가 정보 필요”, or a generic statement. If no worker is justified, write `하위 에이전트: 불필요 — [tightly coupled work reason]`.
 
 Do not include time-saving or token-saving alternatives in the initial recommendation. Present model/effort adjustment options only after a qualified repeated-error or rework signal, or when the user explicitly asks to change settings. For every adjustment, give the reason and expected quality, time, token, and cost impact.
 

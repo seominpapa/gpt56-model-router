@@ -6,6 +6,8 @@ Use these rules whenever the routing response includes time, token, or cost expe
 
 Define the result being estimated: a first draft, reviewable implementation, tested release candidate, or finished delivery. State the expected inputs, tool/test duration, review rounds, and whether the work can run independently in parallel.
 
+Even when these details are incomplete, produce a provisional orchestrator and worker/no-worker plan using stated minimal assumptions. Ask clarifying questions after, not instead of, the initial plan.
+
 ## Produce ranges
 
 Use low–likely–high reasoning internally, then report a practical range. Include aggregate input and output tokens for the project orchestrator, retries, verification, and synthesis; add every worker only when the orchestrator delegates. If outer root-conversation overhead is material, label it separately. Do not imply that model output, external-tool latency, or human review time is guaranteed.

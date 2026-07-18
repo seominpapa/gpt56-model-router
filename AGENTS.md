@@ -1,6 +1,6 @@
 # Agent Guidance
 
-When responding to a project model-routing request, give a user-readable recommendation with the model, reasoning effort, and a concrete reason tied to complexity, failure cost, speed, scale, and tool use.
+When responding to a project model-routing request, the **first response must** give a user-readable recommendation with the model, reasoning effort, and a concrete reason tied to complexity, failure cost, speed, scale, and tool use. It must explicitly include both `프로젝트 총괄: <model> + <effort>` and `하위 에이전트: <불필요 또는 역할별 model + effort>`; these are required output fields, not questions to defer. When details are missing, use minimal stated assumptions, label the plan `잠정안`, and ask any refinement question only after presenting the configuration.
 
 Always include bounded estimates with their assumptions:
 
@@ -8,7 +8,7 @@ Always include bounded estimates with their assumptions:
 - aggregate input/output token range, including verification and rework; and
 - cost range only with verified current official rates or rates supplied by the user; otherwise give the pricing formula and mark the currency estimate as needing rates.
 
-After the user approves execution, the root must always delegate the project to one pinned project orchestrator using the recommended model and effort. The root only routes, reports status, and handles user decisions. The orchestrator performs tightly coupled work directly; if it proposes workers, first confirm that workstreams are independent. It remains responsible for integration and final validation. State each worker role, its model and reasoning effort, the reason for the split, and the plan-level elapsed-time, total-token, and cost ranges. Compare it with an orchestrator-only baseline, since parallel work can shorten the critical path but usually raises aggregate tokens and cost.
+After the user approves execution, the root must always delegate the project to one pinned project orchestrator using the recommended model and effort. The root only routes, reports status, and handles user decisions. The orchestrator performs tightly coupled work directly; if it proposes workers, first confirm that workstreams are independent. It remains responsible for integration and final validation. In the initial recommendation, state either that workers are unnecessary and why, or state every worker role, its model and reasoning effort, and the reason for the split. Include plan-level elapsed-time, total-token, and cost ranges, and compare delegated work with an orchestrator-only baseline, since parallel work can shorten the critical path but usually raises aggregate tokens and cost.
 
 Do not include time-saving or token-saving alternatives in the initial recommendation. Present a model/effort adjustment only after a qualified repeated-error or rework signal, or when the user explicitly requests a change. Include its reason and predicted quality, elapsed-time, total-token, and cost impact. Do not recommend changes that violate stated quality, risk, privacy, or deadline requirements.
 

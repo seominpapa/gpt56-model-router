@@ -40,6 +40,8 @@ Start with the least expensive configuration likely to meet the quality bar. Com
 
 Once the user approves execution, the outer root conversation always creates one pinned **project orchestrator** with the recommended tier and effort. The root routes the task and handles user decisions; it does not execute the project payload.
 
+The initial routing result must always disclose the orchestrator model and effort plus a worker decision: `불필요` with a reason, or every proposed worker role with its model, effort, and reason. Missing task detail is not a reason to defer this output; make explicit minimal assumptions, label it provisional, then ask the follow-up question.
+
 The orchestrator has two valid paths:
 
 - **Direct:** execute a tightly coupled project itself, then validate and report it.
