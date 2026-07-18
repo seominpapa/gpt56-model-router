@@ -103,7 +103,6 @@ Codex만 이 스킬이 프로젝트용 에이전트 설정 파일을 만들고, 
 ```text
 SKILL.md                       # 공통 라우팅 워크플로
 references/decision-rules.md   # 티어·추론강도·승격 규칙
-agents/openai.yaml             # Codex UI 메타데이터(다른 도구에서는 무시 가능)
 ```
 
 ## 라이선스
