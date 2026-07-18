@@ -44,6 +44,8 @@ The initial routing result must always disclose the orchestrator model and effor
 
 The same initial result must include a USD API production-cost range. Use `pricing.md`, split input and output token estimates, calculate each recommended role at its own model rate, and state excluded non-token charges. Do not defer cost because no user-supplied rate is available.
 
+When a project root already has `AGENTS.md` or `.codex/agents/*.toml`, retain its explicit agent roles as the starting structure. Produce a role-by-role current-versus-recommended model/effort comparison, including token and API-cost ranges. Require user approval before changing a named role's configuration; preserve every non-routing setting and report ambiguous file mappings instead of guessing.
+
 The orchestrator has two valid paths:
 
 - **Direct:** execute a tightly coupled project itself, then validate and report it.

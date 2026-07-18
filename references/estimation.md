@@ -8,6 +8,8 @@ Define the result being estimated: a first draft, reviewable implementation, tes
 
 Even when these details are incomplete, produce a provisional orchestrator and worker/no-worker plan using stated minimal assumptions. Ask clarifying questions after, not instead of, the initial plan.
 
+When the project already defines roles in `AGENTS.md` or `.codex/agents/*.toml`, estimate each role separately before producing the aggregate plan: input tokens, output tokens, elapsed-time contribution, and USD API production cost. Use the existing role set unless the user asks to redesign it.
+
 ## Produce ranges
 
 Use low–likely–high reasoning internally, then report a practical range. Report input and output tokens separately for the project orchestrator, retries, verification, and synthesis; add every worker only when the orchestrator delegates. If outer root-conversation overhead is material, label it separately. Do not imply that model output, external-tool latency, or human review time is guaranteed.
