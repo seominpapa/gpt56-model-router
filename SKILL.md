@@ -1,6 +1,6 @@
 ---
 name: gpt56-model-router
-description: Recommend and apply an appropriate GPT-5.6 Sol, Terra, or Luna model and reasoning effort for a new project or task. Use when a user starts work and needs an easy explanation of the best model, reasoning level, rationale, project time/token/cost estimate, cost-saving alternatives, quality-first alternative, or a Codex subagent handoff with a generated pinned agent configuration.
+description: Recommend and apply an appropriate GPT-5.6 Sol, Terra, or Luna model and reasoning effort for a new project or task. Use when a user starts work and needs an easy explanation of the best model, reasoning level, rationale, project time/token/cost estimate, quality-first alternative, adaptive error-driven adjustment policy, or a Codex subagent handoff with a generated pinned agent configuration.
 ---
 
 # GPT-5.6 Model Router
@@ -66,15 +66,13 @@ Return this short, user-friendly structure:
 한 줄 이유: [난이도·실패 비용·속도·반복량을 연결한 설명]
 예상: [가정] · 완료 시간 [범위] · 총 토큰 [범위] · 비용 [범위 또는 산식]
 하위 에이전트: [불필요 / 역할·각 모델+추론강도·추천 이유] · 시간·토큰·비용 영향
-시간절감안: [모델 + 추론강도 + 대안] — [추천 이유] · 시간 [범위] · 토큰 [범위] · 비용 [범위 또는 산식]
-토큰절감안: [모델 + 추론강도 + 대안] — [추천 이유] · 시간 [범위] · 토큰 [범위] · 비용 [범위 또는 산식]
 품질 우선안: [더 높은 조합] — [언제 필요한지]
 적용: [자동 위임 가능 여부 또는 사용자가 선택할 위치]
 검증: 대표 작업 5~20개로 품질, 재작업률, 시간, 비용을 비교
 조정 정책: [고정 / 첫 조정 시 확인 / 자동 조정] 중 하나를 선택해 주세요.
 ```
 
-Always provide exactly two savings alternatives, in this order: (1) a **time-saving alternative** that lowers elapsed time, and (2) a **token-saving alternative** that lowers aggregate tokens. Name the model and reasoning effort for each; if it is unchanged from the primary recommendation, say so explicitly. Consider safely parallelizing independent work or narrowing the first milestone for time; consider a lower effort/tier, a sequential plan for tightly coupled work, sampling, batching, caching/reusing verified context, or staged escalation for tokens. Give each alternative's reason and estimated time, tokens, and cost in the same form as the primary recommendation. Do not recommend an alternative that breaks the stated quality, risk, privacy, or deadline constraint.
+Do not include time-saving or token-saving alternatives in the initial recommendation. Present model/effort adjustment options only after a qualified repeated-error or rework signal, or when the user explicitly asks to change settings. For every adjustment, give the reason and expected quality, time, token, and cost impact.
 
 Do not expose an internal scoring formula unless the user asks. Never present a cost, token, time, or quality guarantee. State assumptions briefly when information is missing.
 

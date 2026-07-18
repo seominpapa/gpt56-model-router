@@ -23,14 +23,14 @@ Use a current official model price only if it can be verified at the time of the
 
 Keep currency and billing units explicit. If the user asks for a rough budget before rates are known, give token ranges and label cost as "단가 필요".
 
-## Compare alternatives
+## Compare a requested adjustment
 
-Offer at least two feasible alternatives. For each, state the mechanism, why it is safe for the stated constraints, and its estimated elapsed time, total tokens, and cost. Good levers are reducing effort before tier, using one agent for tightly coupled work, splitting only independent work, narrowing the first milestone, sampling before full-scale processing, batching, caching verified context, and escalating after a quality gate.
+Do not offer savings alternatives with the initial recommendation. When a qualified repeated-error/rework signal occurs or the user requests a change, state the mechanism, why it fits the constraints, and its estimated quality, elapsed-time, total-token, and cost impact. Good levers are adjusting effort before tier, using one agent for tightly coupled work, splitting only independent work, or escalating after a quality gate.
 
 Do not hide tradeoffs: lower effort can increase rework; parallel agents can shorten elapsed time while raising aggregate tokens and cost.
 
-## Compare a requested adjustment
+## Compare the baseline
 
 Preserve the initial estimate as a baseline. When the user requests a settings adjustment or a qualified repeated-error/rework signal occurs, compare observed elapsed time and available usage with that baseline. Separate measured data from estimates. Show the expected delta for quality, elapsed time, total tokens, and cost after the proposed change.
 
-Change effort before model tier unless observed evidence shows a capability mismatch. Evaluate parallel workers separately: they may reduce elapsed time but should not be presented as a token-saving change. Apply the selected policy: fixed, confirm-once, or automatic. Do not use elapsed time alone as a trigger.
+Change effort before model tier unless observed evidence shows a capability mismatch. Evaluate parallel workers separately: they may reduce elapsed time while increasing aggregate tokens and cost. Apply the selected policy: fixed, confirm-once, or automatic. Do not use elapsed time alone as a trigger.
